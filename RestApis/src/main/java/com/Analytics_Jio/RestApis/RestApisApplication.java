@@ -1,4 +1,4 @@
-package com.example.FileUploadAndLocater;
+package com.Analytics_Jio.RestApis;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,25 +6,30 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 
 
 @SpringBootApplication
-public class FileUploadAndLocaterApplication {
+public class RestApisApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(FileUploadAndLocaterApplication.class, args);
+		SpringApplication.run(RestApisApplication.class, args);
 
 	}
 	
 }
 
-@Controller
+@RestController
+@RequestMapping("/fileUpload")
 class FileUploadController {
 
     // Define the folder path where the files will be uploaded
@@ -35,7 +40,7 @@ class FileUploadController {
         return "uploadForm";
     }
 
-    @PostMapping("/upload")
+    @RequestMapping(path = "/fileUpload", method=RequestMethod.POST)
     public String handleFileUpload(@RequestParam("file") MultipartFile file) {
         try {
             // Get the bytes of the uploaded file

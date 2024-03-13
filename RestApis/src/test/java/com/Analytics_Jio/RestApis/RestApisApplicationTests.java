@@ -1,10 +1,10 @@
-package com.example.FileUploadAndLocater;
+package com.Analytics_Jio.RestApis;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class FileUploadAndLocaterApplicationTests {
+class RestApisApplicationTests {
 
 	@Test
 	void contextLoads() {
