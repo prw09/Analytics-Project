@@ -10,22 +10,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-
+import org.springframework.boot.web.servlet.error.ErrorController;
 
 @SpringBootApplication
 public class RestApisApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(RestApisApplication.class, args);
-
-	}
-	
+    public static void main(String[] args) {
+        SpringApplication.run(RestApisApplication.class, args);
+    }
 }
 
 @RestController
@@ -33,14 +34,14 @@ public class RestApisApplication {
 class FileUploadController {
 
     // Define the folder path where the files will be uploaded
-    private static final String UPLOAD_FOLDER = "/path/to/upload/folder";
+    private static final String UPLOAD_FOLDER = "E:\\Files";
 
     @GetMapping("/get")
     public String index() {
         return "uploadForm";
     }
 
-    @RequestMapping(path = "/fileUpload", method=RequestMethod.POST)
+    @PostMapping("/uploadFile")
     public String handleFileUpload(@RequestParam("file") MultipartFile file) {
         try {
             // Get the bytes of the uploaded file
@@ -66,4 +67,34 @@ class FileUploadController {
         // Redirect to a custom error page
         return "error";
     }
+}
+
+@Controller
+class CustomErrorController implements ErrorController {
+
+    @RequestMapping("/error")
+    public String handleError(HttpServletRequest request) {
+        // Get the error status
+        Integer statusCode = (Integer) request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
+
+        // Handle different error statuses
+        if (statusCode != null) {
+            if (statusCode == 404) {
+                // Handle 404 error
+                return "error-404"; // Return the view name for the 404 error page
+            } else {
+                // Handle other errors
+                return "error"; // Return the view name for the general error page
+            }
+        }
+
+        // Default error handling
+        return "error";
+    }
+
+  //  @Override
+  //   public String erorrString() {
+       
+	// 		return "/error";
+  //   }
 }
