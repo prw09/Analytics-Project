@@ -69,32 +69,3 @@ class FileUploadController {
     }
 }
 
-@Controller
-class CustomErrorController implements ErrorController {
-
-    @RequestMapping("/error")
-    public String handleError(HttpServletRequest request) {
-        // Get the error status
-        Integer statusCode = (Integer) request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-
-        // Handle different error statuses
-        if (statusCode != null) {
-            if (statusCode == 404) {
-                // Handle 404 error
-                return "error-404"; // Return the view name for the 404 error page
-            } else {
-                // Handle other errors
-                return "error"; // Return the view name for the general error page
-            }
-        }
-
-        // Default error handling
-        return "error";
-    }
-
-  //  @Override
-  //   public String erorrString() {
-       
-	// 		return "/error";
-  //   }
-}
