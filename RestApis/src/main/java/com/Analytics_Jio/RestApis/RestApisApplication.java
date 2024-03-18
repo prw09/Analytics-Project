@@ -30,7 +30,7 @@ class FileUploadController {
         return "uploadForm";
     }
 
-    @RequestMapping(path = "/uploadFile" , method = RequestMethod.POST)
+    @RequestMapping(path = "/uploadFile" ,method = RequestMethod.POST)
     public String handleFileUpload(@RequestParam("file") MultipartFile file) {
         try {
             // Get the bytes of the uploaded file
