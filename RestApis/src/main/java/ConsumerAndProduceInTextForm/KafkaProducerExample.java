@@ -17,11 +17,21 @@ public class KafkaProducerExample {
         // Create Kafka producer
         KafkaProducer<String, String> producer = new KafkaProducer<>(properties);
 
-        // Send a message to the topic
-        String topic = "test-topic";
-        String message = "Hello, Kafka!";
-        ProducerRecord<String, String> record = new ProducerRecord<>(topic, message);
-        producer.send(record);
+//        // Send a message to the topic
+//        String topic = "test-topic";
+//        String message = "Hello, Kafka!";
+//        ProducerRecord<String, String> record = new ProducerRecord<>(topic, message);
+//        producer.send(record);
+//
+//        for loop for sending text multiple times...
+        // Send text messages
+        for (int i = 0; i < 10; i++) {
+            String message = "Message " + i;
+            String topic = "text-topic";
+            ProducerRecord<String, String> record = new ProducerRecord<>(topic, message);
+            producer.send(record);
+            System.out.println("Sent message: " + message);
+        }
 
         // Close the producer
         producer.close();
