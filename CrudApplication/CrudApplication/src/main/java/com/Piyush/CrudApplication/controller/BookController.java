@@ -41,16 +41,34 @@ public class BookController {
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    @PostMapping
-    public void addBook(){
+    @PostMapping("/addBook")
+    public ResponseEntity<Book> addBook(@RequestBody Book book){
+       Book bookObj = bookRepo.save(book);
 
+       return new ResponseEntity<>(bookObj , HttpStatus.OK);
     }
-    @PostMapping()
-    public void updateBookById(){
+    @PostMapping("/updateBook/{id}")
+    public ResponseEntity<Book> updateBook(@PathVariable Long id, @RequestBody Book book) {
+        try {
+            Optional<Book> bookData = bookRepo.findById(id);
+            if (bookData.isPresent()) {
+                Book updatedBookData = bookData.get();
+                updatedBookData.setTitle(book.getTitle());
+                updatedBookData.setAuthor(book.getAuthor());
 
+                Book bookObj = bookRepo.save(updatedBookData);
+                return new ResponseEntity<>(bookObj, HttpStatus.CREATED);
+            }
+
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-    @DeleteMapping
-    public void deleteBookById(){
+    @DeleteMapping("/deleteBookBy{Id}")
+    public ResponseEntity<HttpStatus> deleteBookById(@PathVariable Long id){
 
+        bookRepo.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
